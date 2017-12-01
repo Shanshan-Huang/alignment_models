@@ -4,9 +4,9 @@
 This code is a development of the original word learning model [FAS10](https://github.com/aidanematzadeh/word_learning), which introduces several in-the-moment learning mechanisms. We formulate such mutual exclusivity biases brought by these mechanisms as word competitions, referent competitions and no competition.  
 
 ### SAMPLE RUN & replicate experiments
-A script called `core/SAMPLE_RUN.sh` can be run and is a good starting point.
+A script called `scripts/SAMPLE_RUN.sh` can be run and is a good starting point to get familiar with the program.
 
-To fully replicate the experiment results mentioned in the paper Fig.2, you can run the script `core/prepare_four_alignment.sh`. It automatically runs all 4 alignment methods with training time 20k, and generate all four learning curves in one graph. The graphs are under folder `plot/` when completed.
+To fully replicate the experiment results mentioned in the paper Fig.2, you can run the `scripts/prepare_four_alignment.sh`. It automatically runs all 4 alignment methods with training time 20k, and generate all four learning curves in one graph. The graphs are under folder `plot/` when completed.
 
 ### Configuration Settings
 Configuration settings such alignment method, training time, similarity measure can be adjusted in `config.ini`. 
