@@ -1,42 +1,38 @@
-word_learning
-=============
+## alignment_models
 
-This code provides a framework for modeling cross-situational word learning.
-The core algorithm implements the model of Fazly et al. (2010), which is an incremental and probabilistic word learner.
+### Intro
+This code is a development of the original word learning model [FAS10](https://github.com/aidanematzadeh/word_learning), which introduces several in-the-moment learning mechanisms. We formulate such mutual exclusivity biases brought by these mechanisms as word competitions, referent competitions and no competition.  
 
+### SAMPLE RUN & replicate experiments
+A script called `core/SAMPLE_RUN.sh` can be run and is a good starting point.
 
-The code also includes extensions of the above model that allow investigation of:
+To fully replicate the experiment results mentioned in the paper Fig.2, you can run the script `core/prepare_four_alignment.sh`. It automatically runs all 4 alignment methods with training time 20k, and generate all four learning curves in one graph. The graphs are under folder `plot/` when completed.
 
-* Individual differences in word learning. (Nematzadeh et al., 2011, 2012a & 2014a)
-* The role of memory and attention in word learning. (Nematzadeh et al., 2012b & 2013)
-* The acquisition of a semantic network. (Nematzadeh et al., 2014b)
+### Configuration Settings
+Configuration settings such alignment method, training time, similarity measure can be adjusted in `config.ini`. 
+It is worthy to mention that the most important parameter inside configuration file is`alignment-method` which controls the alignment mechanism. You can switch to different word-referent alignment model by inputting different integers to the variable. <br>
+If it's 0, the word learning model aligns word and feature directly as in FAS10. <br>
+If it's 1, the model runs referent competition (i.e. ref-comp) aligning each word with all the referents in the scene. <br>
+If it's 2, the model swithes to word competition (i.e. word-comp), in other words all words are competing for a referent during the alignemnts. <br>
+If it's 3, then then there's no competition among words or referents (i.e. no-comp). <br>
 
+Training time is set to 20k by default since the learning curve stays robust afterwards.
 
-An extension of this model has been used to study novel word generalization (Nematzadeh et al., 2015); the code can be found [here](https://github.com/eringrant/novel_word_generalization).
+### Training Data & Gold lexicon
+Under `data/` folder, a list of training data as well as the gold lexicon used in the experiments are provided.
+`data/all_features_included.all` is the gold lexicon. For a given word, the probability distribution of a set of semantic features representing its gold-standard meaning is uniform.
 
+In each training data, every utterance is paired with a scene. The scene consists of a set of **ALL** meaning features for **ALL** words in the utterance. Different set of semantic features belonging to each word in the sentence are separated by semicolons.
 
-References:
+`all_features_included.dev` is the training data to generate the overall learning performance (Fig.2 in paper).
+`mlu_*.txt` are datas to test the effect of Mean Length of Utterance. In particular, `mlu_long.txt` only consists of utterances of length greater than 4 whereas `mul_short.txt` are made up by utterances of length less than 4. <br>
 
-* Fazly, A., Alishahi, A., & Stevenson, S. (2010).  [A probabilistic computational model of cross-situational word learning](http://onlinelibrary.wiley.com/doi/10.1111/j.1551-6709.2010.01104.x/abstract).  *Cognitive Science*, 34(6), 1017-1063.
+We also experimented on the effect of referential certainty, the datas are the following: `rw_one.txt`, `rw_two.txt`, `rw_three.txt`.
 
-* Nematzadeh, A., A. Fazly, & Stevenson, S. (2011). [A computational study of late talking in word-meaning acquisition](https://mindmodeling.org/cogsci2011/papers/0141/paper0141.pdf). In *Proceedings of the 33rd Annual Conference of the Cognitive Science Society*.
-
-* Nematzadeh, A., Fazly, A., & Stevenson, S. (2012a). [Interaction of word learning and semantic category formation in late talking](https://mindmodeling.org/cogsci2012/papers/0364/paper0364.pdf). In *Proceedings of the 34th Annual Conference of the Cognitive Science Society*.
-
-* Nematzadeh, A., Fazly, A., & Stevenson, S. (2012b). [A computational model of memory, attention, and word learning](http://www.aclweb.org/anthology/W12-1708). In *Proceedings of the 3rd Workshop on Cognitive Modeling and Computational Linguistics* (pp. 80-89). Association for Computational Linguistics.
-
-* Nematzadeh, A., Fazly, A., & Stevenson, S. (2013). [Desirable difficulty in learning: A computational investigation](http://csjarchive.cogsci.rpi.edu/Proceedings/2013/papers/0210/paper0210.pdf). In *Proceedings of the 35th Annual Conference of the Cognitive Science Society*.
-
-* Nematzadeh, A., Fazly, A., and Stevenson, S. (2014a). [Structural differences in the semantic networks of simulated word learners](https://mindmodeling.org/cogsci2014/papers/191/paper191.pdf). In *Proceedings of the 36th Annual Conference of the Cognitive Science Society*.
-
-* Nematzadeh, A., Fazly, A., and Stevenson, S. (2014b). [A cognitive model of semantic network learning](http://emnlp2014.org/papers/pdf/EMNLP2014031.pdf). In *Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing*.
-
-* Nematzadeh, A., Grant, E., and Stevenson, S. (2015). [A computational cognitive model of novel word generalization](http://www.emnlp2015.org/proceedings/EMNLP/pdf/EMNLP207.pdf). In *Proceedings of the 2015 Conference on Empirical Methods for Natural Language Processing*.
-
-
-Starter code is provided in `starter/main.py`,
-and development and test data are located at `data/input_wn_fu_cs_scaled_categ.dev` and  `data/input_wn_fu_cs_scaled_categ.tst`, respectively.
-The gold standard lexicon, which was used to generate the dev/test data, and which can be used to compute metrics such as the acquisition score, is located at `data/all_catf_norm_prob_lexicon_cs.all`.
+### Dependencies
+[seaborn](http://seaborn.pydata.org/), [matplotlib](http://matplotlib.org/), 
+[nltk](http://www.nltk.org/), [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/)
 
 
-Requirements: `Python 2`, `numpy`, `scipy`
+### Reference
+http://www.cs.toronto.edu/~aida/papers/nematzadeh_etal_17_cogsci_alignments.pdf
