@@ -2,6 +2,8 @@ import sys
 import os
 import re
 import getopt
+lib_path = os.path.abspath('../core/')
+sys.path.append(lib_path)
 import learn
 import evaluate
 import wmmapping
