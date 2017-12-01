@@ -17,7 +17,7 @@ for (( i=0;i<$ELEMENTS;i++)); do
 	sed -i "/alignment-method=/ c alignment-method=${i}" $CONFIG
 	cat $CONFIG | grep alignment-method=
 	OUTPUT_DIR="$RES_PATH${MODEL[${i}]}"
-	/usr/bin/python main.py -c $TRAINING_CORPUS -l $GOLD_LEXICON -o $OUTPUT_DIR -C $CONFIG
+	/usr/bin/python ../starter/main.py -c $TRAINING_CORPUS -l $GOLD_LEXICON -o $OUTPUT_DIR -C $CONFIG
 	/usr/bin/python plot_freq.py $OUTPUT_DIR
 
 done
