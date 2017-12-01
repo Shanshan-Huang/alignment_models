@@ -2,7 +2,7 @@
 
 TRAINING_CORPUS="../data/all_features_included.dev"
 GOLD_LEXICON="../data/all_features_included.all"
-CONFIG="../config.ini"
+CONFIG="../starter/config.ini"
 TIME=20000
 
 # change training time
@@ -21,4 +21,5 @@ for (( i=0;i<$ELEMENTS;i++)); do
 	/usr/bin/python plot_freq.py $OUTPUT_DIR
 
 done
-#/usr/bin/python plot_graphs.py $RES_PATH $TIME
+# plot_graphs.py requires SEABORN package 
+/usr/bin/python plot_graphs.py $RES_PATH $TIME
